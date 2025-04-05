@@ -4,8 +4,8 @@ const ProductCard = ({ product }) => {
   return (
     <div className="product-card">
       <h3>{product.name}</h3>
-      <p>${product.price}</p>
-      <button>Add to Cart</button>
+      <p>${product.price.toFixed(2)}</p>
+      <button onClick={() => addToCart(product)}>Add to Cart</button>
     </div>
   );
 };
