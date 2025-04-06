@@ -26,12 +26,24 @@ useEffect(() => {
     setCart(cart.filter((item, index) => index !== productToRemove));
   };
 
+  const clearCart = () => {
+    setCart([]);
+  };
+
   return (
     <Router>
       <Navbar cartItemCount={cart.length} />
       <Routes>
         <Route path="/" element={<ProductList addToCart={addToCart} />} />
-        <Route path="/cart" element={<Cart cart={cart} removeFromCart={removeFromCart} />} />
+        <Route path="/cart" 
+        element={
+        <Cart
+         cart={cart}
+         removeFromCart={removeFromCart}
+         clearCart={clearCart}
+         />
+        }
+        />
       </Routes>
     </Router>
   );
