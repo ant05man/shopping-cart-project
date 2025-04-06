@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Order = require('../models/Order'); // adjust path if needed
-const authMiddleware = require('../middleware/auth'); // JWT middleware
+const authMiddleware = require('../middleware/auth'); // adjust path if needed
 
 // POST /api/orders/checkout
 router.post('/checkout', authMiddleware, async (req, res) => {

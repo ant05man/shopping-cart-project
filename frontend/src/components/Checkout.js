@@ -31,15 +31,25 @@ const Checkout = ({ cart, clearCart }) => {
 
     try {
       // Send the POST request to the server with the token in the header
-      const response = await axios.post(
-        'http://localhost:5000/api/orders/checkout',
-        { cart, shippingAddress: formData.address },
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`, // Send the token in the Authorization header
-          },
-        }
-      );
+     // Transform cart to only send productId and quantity
+const orderItems = cart.map(item => ({
+  productId: item._id, // This must match your backend schema
+  quantity: item.quantity,
+}));
+
+const response = await axios.post(
+  'http://localhost:5000/api/orders/checkout',
+  {
+    items: orderItems,
+    shippingAddress: formData.address,
+  },
+  {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+  }
+);
+
 
       if (response.status === 201) {
         console.log('Order placed successfully:', response.data.order);
