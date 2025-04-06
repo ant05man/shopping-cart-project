@@ -26,6 +26,7 @@ const Checkout = ({ cart, clearCart }) => {
 
     // Get the JWT token from localStorage
     const token = localStorage.getItem('token');
+    console.log('Token:', token);
     if (!token) {
       console.error('No token found. Please log in.');
       return;  // If no token is found, return early
