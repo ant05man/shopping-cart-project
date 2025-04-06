@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const dotenv = require('dotenv').config();
+const dotenv = require('dotenv')
 const orderRoutes = require('./routes/order');
 
 // Load environment variables
@@ -30,7 +30,6 @@ const authRoutes = require('./routes/auth');
 app.use('/api/auth', authRoutes);
 
 // Order Routes
-const orderRoutes = require('./routes/order');
 app.use('/api/orders', orderRoutes);
 
 // Start server
