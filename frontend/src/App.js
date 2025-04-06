@@ -5,7 +5,12 @@ import Navbar from './components/Navbar';
 import ProductList from './components/ProductList';
 import Cart from './components/Cart';
 import Checkout from './components/Checkout';
+
+import Signup from './components/Signup';
+import Login from './components/Login';
+
 import './App.css';
+
 
 function App() {
   // Load Cart from LocalStorage or start with an empty array
@@ -36,6 +41,8 @@ useEffect(() => {
       <Navbar cartItemCount={cart.length} />
       <Routes>
         <Route path="/" element={<ProductList addToCart={addToCart} />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/checkout" element={<Checkout cart={cart} clearCart={clearCart} />} />
         <Route path="/cart" 
         element={
