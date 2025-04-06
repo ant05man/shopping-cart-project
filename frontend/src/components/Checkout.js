@@ -23,28 +23,29 @@ const Checkout = ({ cart, clearCart }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token'); // Retrieve JWT token from localStorage
     if (!token) {
-      console.error('❌ No token found. Please log in.');
-      return;
+      console.error('No token found. Please log in.');
+      return; // Stop submission if token is not found
     }
 
     try {
-      // 🟡 Transform cart to only send productId and quantity
+      // Transform cart to only send productId and quantity
       const orderItems = cart.map(item => ({
-        productId: item.id, // Ensure _id exists on each item
-        quantity: item.quantity || 1,
+        productId: item._id, // This must match your backend schema
+        quantity: item.quantity,
       }));
 
-      // 🛠️ Console logs for debugging
-      console.log("🛒 Full cart:", cart);
+      // Log the order data before sending it to the backend
       console.log("📝 Transformed order items:", orderItems);
+
+      // Log the final order data to be sent
       console.log("📦 Final order data to be sent:", {
         items: orderItems,
         shippingAddress: formData.address,
       });
 
-      // 📡 Make API call
+      // Send the POST request to the server with the token in the header
       const response = await axios.post(
         'http://localhost:5000/api/orders/checkout',
         {
@@ -60,11 +61,12 @@ const Checkout = ({ cart, clearCart }) => {
 
       if (response.status === 201) {
         console.log('✅ Order placed successfully:', response.data.order);
-        clearCart();
-        setSubmitted(true);
+        clearCart(); // Clear the cart after the order is placed
+        setSubmitted(true); // Set the submitted state to true
       }
     } catch (error) {
-      console.error('❌ Error placing order:', error.response?.data || error.message);
+      // Log the error response
+      console.error('❌ Error placing order:', error);
     }
   };
 

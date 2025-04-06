@@ -5,6 +5,7 @@ const authMiddleware = require('../middleware/auth'); // adjust path if needed
 
 // POST /api/orders/checkout
 router.post('/checkout', authMiddleware, async (req, res) => {
+    console.log("Received order data:", req.body);
   try {
     const { cart, shippingAddress } = req.body;
 
