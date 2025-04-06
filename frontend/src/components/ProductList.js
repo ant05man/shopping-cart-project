@@ -1,7 +1,7 @@
 import React from 'react';
 import ProductCard from './ProductCard';
 
-const ProductList = () => {
+const ProductList = ({ addToCart }) => {
   const products = [
     { id: 1, name: 'Brown Leather Jacket', price: 299.99 },
     { id: 2, name: 'Suede Blue Sneakers', price: 89.99 },

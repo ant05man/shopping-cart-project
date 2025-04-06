@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import ProductList from './components/ProductList';
 import './App.css';
@@ -9,7 +9,7 @@ function App() {
   const addToCart = (product) => {
     setCart([...cart, product]);
   };
-  
+
   return (
     <div className="App">
       <Navbar cartItemCount={cart.length} />
