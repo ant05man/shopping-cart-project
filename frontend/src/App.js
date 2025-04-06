@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import ProductList from './components/ProductList';
 import Cart from './components/Cart';
-
 import './App.css';
 
 function App() {
@@ -15,15 +14,15 @@ function App() {
   };
 
   const removeFromCart = (productToRemove) => {
-    setCart(cart.filter((item,index)) => index !== productToRemove)
+    setCart(cart.filter((item, index) => index !== productToRemove));
   };
 
   return (
     <Router>
       <Navbar cartItemCount={cart.length} />
       <Routes>
-      <Route path="/" element={<ProductList addToCart={addToCart} />} />
-      <Route path="/cart" element={<Cart cart={cart} />} />
+        <Route path="/" element={<ProductList addToCart={addToCart} />} />
+        <Route path="/cart" element={<Cart cart={cart} removeFromCart={removeFromCart} />} />
       </Routes>
     </Router>
   );
