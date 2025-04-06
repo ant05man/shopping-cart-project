@@ -1,21 +1,16 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
-const ProtectedRoute = ({ component: Component, ...rest }) => {
-  const user = JSON.parse(localStorage.getItem('user')); // or check for token
+const ProtectedRoute = ({ children }) => {
+  const token = localStorage.getItem('token'); // Check if the user is logged in (i.e., token exists)
+  
+  // If there's no token (user isn't logged in), redirect them to the login page
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
 
-  return (
-    <Route
-      {...rest}
-      render={(props) =>
-        user ? (
-          <Component {...props} /> // If user is authenticated, render the component
-        ) : (
-          <Redirect to="/login" /> // If not authenticated, redirect to login page
-        )
-      }
-    />
-  );
+  // If there's a token (user is logged in), render the child component (e.g., Checkout)
+  return children;
 };
 
 export default ProtectedRoute;
