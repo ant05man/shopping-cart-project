@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import ProductList from './components/ProductList';
 import Cart from './components/Cart';
+import Checkout from './components/Checkout';
 import './App.css';
 
 function App() {
@@ -35,6 +36,7 @@ useEffect(() => {
       <Navbar cartItemCount={cart.length} />
       <Routes>
         <Route path="/" element={<ProductList addToCart={addToCart} />} />
+        <Route path="/checkout" element={<Checkout cart={cart} clearCart={clearCart} />} />
         <Route path="/cart" 
         element={
         <Cart
