@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const orderRoutes = require('./routes/order');
 
 // Load environment variables
 dotenv.config();
@@ -27,6 +28,9 @@ app.get('/', (req, res) => {
 // Auth Routes (to be created)
 const authRoutes = require('./routes/auth');
 app.use('/api/auth', authRoutes);
+
+// Order Routes
+app.use('/api/orders', orderRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5000;
