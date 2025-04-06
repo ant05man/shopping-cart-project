@@ -1,4 +1,3 @@
-// frontend/src/components/Checkout.js
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -11,6 +10,7 @@ const Checkout = ({ cart, clearCart }) => {
 
   const [submitted, setSubmitted] = useState(false);
 
+  // Calculate the total price
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2);
 
   const handleChange = (e) => {
@@ -26,21 +26,27 @@ const Checkout = ({ cart, clearCart }) => {
     // Get the JWT token from localStorage
     const token = localStorage.getItem('token');
 
+    if (!token) {
+      console.error('No token found. Please log in.');
+      return; // If there is no token, stop the request
+    }
+
     try {
+      // Send the POST request to the server with the token in the header
       const response = await axios.post(
         'http://localhost:5000/api/orders/checkout',
         { cart, shippingAddress: formData.address },
         {
           headers: {
-            Authorization: token, // Send the token in the Authorization header
+            'Authorization': `Bearer ${token}`, // Send the token in the Authorization header
           },
         }
       );
 
       if (response.status === 201) {
         console.log('Order placed successfully:', response.data.order);
-        clearCart();
-        setSubmitted(true);
+        clearCart(); // Clear the cart after order is placed
+        setSubmitted(true); // Set the submitted state to true
       }
     } catch (error) {
       console.error('Error placing order:', error);
