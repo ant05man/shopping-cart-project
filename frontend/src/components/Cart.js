@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Cart = ({ cart, removeFromCart }) => {
+const Cart = ({ cart, removeFromCart, clearCart }) => {
   const total = cart.reduce((acc, item) => acc + item.price, 0);
 
   return (
