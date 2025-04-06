@@ -1,10 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Navbar = ({ cartItemCount }) => {
   return (
-    <nav>
-      <h2>My Shopping Cart</h2>
-      <div>Cart: {cartItemCount} items</div>
+    <nav style={{ display: 'flex', justifyContent: 'space-between', padding: '1rem' }}>
+      <Link to="/">🛍️ Shop</Link>
+      <Link to="/cart">🛒 Cart ({cartItemCount})</Link>
     </nav>
   );
 };
