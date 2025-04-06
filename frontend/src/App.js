@@ -7,7 +7,16 @@ import Cart from './components/Cart';
 import './App.css';
 
 function App() {
-  const [cart, setCart] = useState([]);
+  // Load Cart from LocalStorage or start with an empty array
+  const [cart, setCart] = useState(() => {
+  const savedCart = localStorage.getItem('cart');
+  return savedCart ? JSON.parse(savedCart) : [];
+});
+
+// whenever cart changes, save it to LocalStorage
+useEffect(() => {
+  localStorage.setItem('cart', JSON.stringify(cart));
+}, [cart]);
 
   const addToCart = (product) => {
     setCart([...cart, product]);
