@@ -1,36 +1,44 @@
 const express = require('express');
-const Order = require('../models/Order');
-const authenticate = require('../middleware/authenticate'); // Import the JWT middleware
 const router = express.Router();
+const Order = require('../models/Order'); // adjust path if needed
+const authMiddleware = require('../middleware/auth'); // JWT middleware
 
-// Create an order
-router.post('/checkout', authenticate, async (req, res) => {
-  const { cart, shippingAddress } = req.body;
-  if (!cart || cart.length === 0 || !shippingAddress) {
-    return res.status(400).json({ message: 'Cart and shipping address are required' });
-  }
-
+// POST /api/orders/checkout
+router.post('/checkout', authMiddleware, async (req, res) => {
   try {
-    const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const { cart, shippingAddress } = req.body;
 
-    // Create a new order and associate it with the authenticated user
-    const order = new Order({
-      user: req.user.id,
-      items: cart.map(item => ({
-        productId: item.productId,
-        name: item.name,
-        price: item.price,
+    // Make sure user is authenticated
+    const userId = req.user._id;
+
+    if (!cart || !Array.isArray(cart) || cart.length === 0) {
+      return res.status(400).json({ message: 'Cart is empty or invalid.' });
+    }
+
+    // Transform cart items into the format your Mongoose model expects
+    const items = cart.map(item => {
+      if (!item._id || !item.quantity) {
+        throw new Error('Each cart item must have _id and quantity.');
+      }
+
+      return {
+        productId: item._id,
         quantity: item.quantity,
-      })),
-      totalAmount,
+      };
+    });
+
+    const newOrder = new Order({
+      user: userId,
+      items,
       shippingAddress,
     });
 
-    await order.save(); // Save the order to the database
-    res.status(201).json({ message: 'Order placed successfully', order });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    await newOrder.save();
+
+    res.status(201).json({ message: 'Order placed successfully', order: newOrder });
+  } catch (err) {
+    console.error('Checkout error:', err.message);
+    res.status(400).json({ message: 'Error placing order', error: err.message });
   }
 });
 
