@@ -14,6 +14,10 @@ function App() {
     setCart([...cart, product]);
   };
 
+  const removeFromCart = (productToRemove) => {
+    setCart(cart.filter((item,index)) => index !== productToRemove)
+  };
+
   return (
     <Router>
       <Navbar cartItemCount={cart.length} />
