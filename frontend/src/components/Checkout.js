@@ -1,4 +1,6 @@
+// frontend/src/components/Checkout.js
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const Checkout = ({ cart, clearCart }) => {
   const [formData, setFormData] = useState({
@@ -9,7 +11,7 @@ const Checkout = ({ cart, clearCart }) => {
 
   const [submitted, setSubmitted] = useState(false);
 
-  const total = cart.reduce((sum, item) => sum + item.price, 0).toFixed(2);
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2);
 
   const handleChange = (e) => {
     setFormData({
@@ -18,12 +20,31 @@ const Checkout = ({ cart, clearCart }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Normally send to server here
-    console.log('Order submitted:', { ...formData, cart });
-    clearCart();
-    setSubmitted(true);
+
+    // Get the JWT token from localStorage
+    const token = localStorage.getItem('token');
+
+    try {
+      const response = await axios.post(
+        'http://localhost:5000/api/orders/checkout',
+        { cart, shippingAddress: formData.address },
+        {
+          headers: {
+            Authorization: token, // Send the token in the Authorization header
+          },
+        }
+      );
+
+      if (response.status === 201) {
+        console.log('Order placed successfully:', response.data.order);
+        clearCart();
+        setSubmitted(true);
+      }
+    } catch (error) {
+      console.error('Error placing order:', error);
+    }
   };
 
   if (submitted) {
@@ -51,7 +72,9 @@ const Checkout = ({ cart, clearCart }) => {
         <h3>Order Summary</h3>
         <ul>
           {cart.map((item, index) => (
-            <li key={index}>{item.name} - ${item.price.toFixed(2)}</li>
+            <li key={index}>
+              {item.name} - ${item.price.toFixed(2)} x {item.quantity}
+            </li>
           ))}
         </ul>
         <strong>Total: ${total}</strong>
