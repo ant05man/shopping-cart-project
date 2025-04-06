@@ -31,6 +31,24 @@ const Cart = ({ cart, removeFromCart, clearCart }) => {
           ))}
         </ul>
       )}
+
+{cart.length > 0 && (
+  <button
+    onClick={clearCart}
+    style={{
+      marginTop: '1rem',
+      padding: '8px 16px',
+      background: '#007bff',
+      color: 'white',
+      border: 'none',
+      borderRadius: '4px',
+      cursor: 'pointer'
+    }}
+  >
+    Clear Cart
+  </button>
+)}
+
       <h3>Total: ${total.toFixed(2)}</h3>
     </div>
   );
