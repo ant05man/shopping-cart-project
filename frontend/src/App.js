@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 import Navbar from './components/Navbar';
 import ProductList from './components/ProductList';
 import './App.css';
@@ -11,12 +13,13 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <Router>
       <Navbar cartItemCount={cart.length} />
-      <ProductList addToCart={addToCart} />
-      <Navbar />
-      <ProductList />
-    </div>
+      <Routes>
+      <Route path="/" element={<ProductList addToCart={addToCart} />} />
+      <Route path="/cart" element={<Cart cart={cart} />} />
+      </Routes>
+    </Router>
   );
 }
 
