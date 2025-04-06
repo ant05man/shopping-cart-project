@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';  // Correct import for jwt-decode
 
 const Checkout = ({ cart, clearCart }) => {
   const [formData, setFormData] = useState({
@@ -24,23 +23,13 @@ const Checkout = ({ cart, clearCart }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Get the JWT token from localStorage
-    const token = localStorage.getItem('token');
-    console.log('Token:', token);
+    const token = localStorage.getItem('token'); // Retrieve JWT token from localStorage
     if (!token) {
       console.error('No token found. Please log in.');
-      return;  // If no token is found, return early
+      return; // Stop submission if token is not found
     }
 
     try {
-      // Decode the token and check if it is expired
-      const decoded = jwtDecode(token);
-      const isExpired = decoded.exp < Date.now() / 1000;
-      if (isExpired) {
-        console.error('Token has expired. Please log in again.');
-        return;  // If the token is expired, stop further execution
-      }
-
       // Send the POST request to the server with the token in the header
       const response = await axios.post(
         'http://localhost:5000/api/orders/checkout',

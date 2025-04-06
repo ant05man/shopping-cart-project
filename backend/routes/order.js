@@ -1,21 +1,7 @@
 const express = require('express');
 const Order = require('../models/Order');
-const jwt = require('jsonwebtoken');
+const authenticate = require('../middleware/authenticate'); // Import the JWT middleware
 const router = express.Router();
-
-// Middleware to verify JWT token and get user info
-const authenticate = (req, res, next) => {
-  const token = req.header('Authorization');
-  if (!token) return res.status(401).json({ message: 'No token, authorization denied' });
-
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded.user; // User information is added to req.user
-    next();
-  } catch (err) {
-    res.status(401).json({ message: 'Invalid token' });
-  }
-};
 
 // Create an order
 router.post('/checkout', authenticate, async (req, res) => {
@@ -25,12 +11,11 @@ router.post('/checkout', authenticate, async (req, res) => {
   }
 
   try {
-    // Calculate the total amount
     const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-    // Create a new order
+    // Create a new order and associate it with the authenticated user
     const order = new Order({
-      user: req.user.id, // Associating the order with the authenticated user
+      user: req.user.id,
       items: cart.map(item => ({
         productId: item.productId,
         name: item.name,
@@ -41,10 +26,7 @@ router.post('/checkout', authenticate, async (req, res) => {
       shippingAddress,
     });
 
-    // Save the order to the database
-    await order.save();
-
-    // Send a response with the created order
+    await order.save(); // Save the order to the database
     res.status(201).json({ message: 'Order placed successfully', order });
   } catch (error) {
     console.error(error);
