@@ -36,8 +36,8 @@ const Checkout = ({ cart, clearCart }) => {
       const orderItems = cart.map(item => {
         console.log("Transforming Cart Item:", item);
         return {
-          productId: item._id, // Ensure you are using _id if it's present in your cart
-          quantity: item.quantity,
+          productId: item.id, // Change to 'id' if you are using 'id' in the cart
+          quantity: item.quantity || 1, // Set quantity to 1 if it's not defined
         };
       });
 
