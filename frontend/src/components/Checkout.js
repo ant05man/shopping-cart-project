@@ -29,12 +29,17 @@ const Checkout = ({ cart, clearCart }) => {
       return; // Stop submission if token is not found
     }
 
+    console.log("🛒 Full cart before transformation:", cart);
+
     try {
       // Transform cart to only send productId and quantity
-      const orderItems = cart.map(item => ({
-        productId: item._id, // This must match your backend schema
-        quantity: item.quantity,
-      }));
+      const orderItems = cart.map(item => {
+        console.log("🛒 Cart Item:", item); // Log each cart item for debugging
+        return {
+          productId: item._id || item.id,  // This must match your backend schema
+          quantity: item.quantity,
+        };
+      });
 
       // Log the order data before sending it to the backend
       console.log("📝 Transformed order items:", orderItems);
