@@ -13,7 +13,9 @@ const ProductList = ({ addToCart }) => {
   ];
 
   const handleAddToCart = (product) => {
-    addToCart({ ...product, quantity });
+    console.log("Product being added:", product);
+    console.log("Quantity being added:", quantity);
+    addToCart({ productId: product._id, quantity });
   };
 
   return (
