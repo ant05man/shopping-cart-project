@@ -5,11 +5,11 @@ const ProductList = ({ addToCart }) => {
   const [quantity, setQuantity] = useState(1);
 
   const products = [
-    { _id: 1, name: 'Brown Leather Jacket', price: 299.99 },
-    { _id: 2, name: 'Suede Blue Sneakers', price: 89.99 },
-    { _id: 3, name: 'Light Wash Jeans', price: 49.99 },
-    { _id: 4, name: 'Denim Vest', price: 59.99 },
-    { _id: 5, name: 'Yellow Blazer', price: 112.99 }
+    { _id: '67f3b03cdfe4a24a9bfd43c3', name: 'Brown Leather Jacket', price: 299.99 },
+    { _id: '67f3b0bddfe4a24a9bfd43c4', name: 'Suede Blue Sneakers', price: 89.99 },
+    { _id: '67f3b0bddfe4a24a9bfd43c5', name: 'Light Wash Jeans', price: 49.99 },
+    { _id: '67f3b0bddfe4a24a9bfd43c6', name: 'Denim Vest', price: 59.99 },
+    { _id: '67f3b0bddfe4a24a9bfd43c7', name: 'Yellow Blazer', price: 112.99 }
   ];
 
   const handleAddToCart = (product) => {
