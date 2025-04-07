@@ -32,16 +32,16 @@ const Checkout = ({ cart, clearCart }) => {
     console.log("🛒 Full cart before transformation:", cart);
 
     try {
-      // Transform cart to only send productId and quantity
+      // Transform cart to only send productId (_id) and quantity
       const orderItems = cart.map(item => {
-        console.log("🛒 Cart Item:", item); // Log each cart item for debugging
+        console.log("Transforming Cart Item:", item);
         return {
-          productId: item._id || item.id,  // This must match your backend schema
+          productId: item._id, // Ensure you are using _id if it's present in your cart
           quantity: item.quantity,
         };
       });
 
-      // Log the order data before sending it to the backend
+      // Log the transformed order items before sending them to the backend
       console.log("📝 Transformed order items:", orderItems);
 
       // Log the final order data to be sent
