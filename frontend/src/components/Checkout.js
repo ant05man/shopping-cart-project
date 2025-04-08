@@ -33,12 +33,13 @@ const Checkout = ({ cart, clearCart }) => {
 
     try {
       // Transform cart to only send productId (_id) and quantity
-      const orderItems = cart.map(item => {
-        console.log("Transforming Cart Item:", item);
-        console.log("✅ productId is:", item.productId);
+      const orderItems = cart.map((cartItem) => {
+        console.log("Transforming Cart Item:", cartItem);
+        console.log("✅ productId is:", cartItem.productId);
+
         return {
-          productId: item.productId, // Change to 'id' if you are using 'id' in the cart
-          quantity: item.quantity || 1, // Set quantity to 1 if it's not defined
+          productId: cartItem.productId, // Change to 'id' if you are using 'id' in the cart
+          quantity: cartItem.quantity || 1, // Set quantity to 1 if it's not defined
         };
       });
 
