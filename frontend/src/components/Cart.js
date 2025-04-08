@@ -1,9 +1,13 @@
+import React from 'react';
+
 const Cart = ({ cart, removeFromCart, clearCart }) => {
+  // Safely calculate total price (default to 0 if price is undefined)
   const total = cart.reduce((acc, item) => acc + (item.price || 0), 0);
 
   return (
     <div className="cart-container">
       <h2>Your Shopping Cart</h2>
+
       {cart.length === 0 ? (
         <p>Your cart is empty.</p>
       ) : (
@@ -11,9 +15,7 @@ const Cart = ({ cart, removeFromCart, clearCart }) => {
           {cart.map((item, index) => (
             <li key={index}>
               {item.name || 'Unnamed Product'} - $
-              {item.price !== undefined
-                ? item.price.toFixed(2)
-                : '0.00'}{' '}
+              {item.price !== undefined ? item.price.toFixed(2) : '0.00'}{' '}
               <button
                 onClick={() => removeFromCart(index)}
                 style={{
@@ -54,3 +56,5 @@ const Cart = ({ cart, removeFromCart, clearCart }) => {
     </div>
   );
 };
+
+export default Cart;
