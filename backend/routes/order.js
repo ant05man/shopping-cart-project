@@ -31,7 +31,7 @@ router.post('/checkout', authMiddleware, async (req, res) => {
     });
 
     const newOrder = new Order({
-      user: userId,
+      user: req.user._id,
       items: transformedItems,
       shippingAddress,
     });
