@@ -11,7 +11,8 @@ router.post('/checkout', authMiddleware, async (req, res) => {
     const { items, shippingAddress } = req.body;
 
     // Make sure user is authenticated
-    const userId = req.user._id;
+    const userId = req.user._id; // This is no longer needed
+    console.log("Authenticated user ID:", userId); // Log user ID for debugging
 
     // Validate items
     if (!items || !Array.isArray(items) || items.length === 0) {
@@ -31,7 +32,7 @@ router.post('/checkout', authMiddleware, async (req, res) => {
     });
 
     const newOrder = new Order({
-      user: req.user._id,
+      user: req.user._id, // Use req.user._id directly
       items: transformedItems,
       shippingAddress,
     });

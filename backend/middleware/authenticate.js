@@ -10,6 +10,7 @@ const authenticate = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = { _id: decoded.userId }; // ✅ Fix: correctly format req.user
+    console.log('Authenticated User:', req.user);
     next();
   } catch (err) {
     return res.status(401).json({ message: 'Invalid token' });
