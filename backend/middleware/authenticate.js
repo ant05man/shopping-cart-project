@@ -14,6 +14,7 @@ const authenticate = (req, res, next) => {
     // Decode the token using your JWT secret
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
+    console.log('Decoded JWT:', decoded);
     // Make sure decoded payload contains userId (set in your login/signup route)
     if (!decoded.userId) {
       return res.status(401).json({ message: 'Invalid token payload' });
@@ -21,7 +22,7 @@ const authenticate = (req, res, next) => {
 
     // Attach user info to the request object
     req.user = { _id: decoded.userId };
-    console.log('✅ Authenticated User ID:', req.user._id);
+    console.log('✅ Authenticated User ID:', req.user);
 
     next(); // Continue to the next middleware/route
   } catch (err) {
